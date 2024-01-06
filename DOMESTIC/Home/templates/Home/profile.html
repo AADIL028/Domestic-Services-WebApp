@@ -1,0 +1,130 @@
+{% extends 'basic.html' %}
+{% block title %} Profile {% endblock %}
+{% block body%}
+
+
+  {% if user.is_authenticated %}
+  <form action="/profile/" class="needs-validation" method="post">
+    {% csrf_token %}
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 container">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="../static/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3 fs-1">{{ info.username }}</h5>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0 fs-5 ">Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="fName" name="fname" class="fs-5 form-control-plaintext border-0"
+                      value="{{ info.fname }}" required/>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0 fs-5 ">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="email" id="email" name="email" class="fs-5 form-control-plaintext border-0"
+                      value="{{ info.email }}" readonly />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0 fs-5 ">Mobile</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="tel" id="mobile" name="phone" class="fs-5 form-control-plaintext border-0" maxlength="10" pattern="[0-9]{10}"
+                      value="{{ info.phone }}" required/>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0 fs-5 ">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="Address" name="address" class="fs-5 form-control-plaintext border-0"
+                      value="{{ info.address }}" required/>
+
+                  </div>
+                </div>
+                <hr>
+                <div class="d-flex mt-5 justify-content-center">
+                  <button type="submit" class="btn btn-primary ml-5">Update Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</form>
+  {% else %}
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-lg-6 container">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="../static/ava3.webp" alt="avatar" class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">John Smith</h5>
+              <div class="card-body p-5">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Full Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="Name" class="form-control border-0" value="John Smith" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="email" id="email" class="form-control border-0" value="example@gmail.com" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Mobile</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="number" id="mobile" class="form-control border-0" value="9898707678" />
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Address</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <input type="text" id="Address" class="form-control border-0" value="Bay Area, San Francisco, CA" />
+
+                  </div>
+                </div>
+                <hr>
+                <div class="d-flex mt-5 justify-content-center">
+                  <button type="submit" class="btn btn-primary ml-5">Update Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endif %}
+
+  {% endblock %}

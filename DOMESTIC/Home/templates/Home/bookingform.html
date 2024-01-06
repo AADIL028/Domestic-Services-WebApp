@@ -1,0 +1,199 @@
+{% extends 'basic.html' %}
+{% block title %} Booking-Form {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/bform.css">
+{% endblock %}
+{% block body%}
+  <div class="container">
+    <div class="row d-flex justify-content-center mt-5 mb-5">
+        
+        <div class="col-md-12">
+            
+            <div class="card p-4">
+                <form action="/makebooking" method="POST">
+                  {% csrf_token %}
+                <div class="text-left">
+                    <h3>Fill the details</h3>
+                </div>
+              <input type="hidden" name="price" id='price'>
+                <div class="mt-2">
+                <div class="form-check form-switch">
+                  <input class="form-check-input" type="checkbox" id="detailscheck" onclick="dtcheck()">
+                  <label class="form-check-label" for="detailscheck">Same as Profile details.</label>
+                </div>
+                </div>
+
+                <div class="mt-2 col-md-3">
+                    <div class="form">
+                        <p>Full Name :</p>
+                        <input type="text" class="form-control" id="bfname" value='' required name="fname">
+                    </div>
+                </div>
+                
+                <div class="mt-2 col-md-3">
+                    <div class="form">
+                        <p>Phone Number :</p>
+                      <input type="tel" id="bfphone" pattern="[0-9]{10}" class="form-control" maxlength="10" value='' required name="phone"/>                 
+
+                    </div>
+                </div>
+                
+                <div class="mt-2">
+                    <div class="form">
+                        <p>Address :</p>
+                        <input type="text" id="bfaddress" class="form-control" value='' required name="address">
+                    </div>
+                </div>
+                
+                
+                
+                <div class="my-2 col-md-3">
+                    <div class="form">
+                        <p>Select Date :</p>
+                        <input type="date" id="date" onclick="getdate()" class="form-control" name="serdate" required>
+                    </div>
+                </div>
+                
+                      <p>Select Slote :</p>
+                        <div class="app-time">
+                        <div class="mb-3">
+                          <p>Morning :- 9:00AM to 12:00PM</p>
+                          <div class="app-check">
+                            <input type="radio" class="option-input radio" name="slote" value="9:00 AM" required/>
+                            <div class="app-border">
+                      
+                              <label class="app-label">9:00 AM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" disabled name="slote" value="9:30 AM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">9:30 AM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" disabled value="10:00 AM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">10:00 AM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" value="10:30 AM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">10:30 AM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" value="11:00 AM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">11:00 AM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" disabled value="11:30 AM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">11:30 AM
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <p>Afternoon :- 1:00PM to 5:00PM</p>
+                          <div class="app-check">
+                            <input type="radio" class="option-input radio" name="slote" value="1:00 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">1:00 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" disabled value="1:30 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">1:30 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" value="2:00 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">2:00 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" disabled value="2:30 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">2:30 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" value="3:00 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">3:00 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" disabled value="3:30 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">3:30 PM
+                              </label>
+                            </div>
+                            <input type="radio" class="option-input radio" name="slote" value="4:00 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">4:00 PM
+                              </label>
+                            </div>
+                      
+                            <input type="radio" class="option-input radio" name="slote" disabled value="4:30 PM" />
+                            <div class="app-border">
+                      
+                              <label class="app-label">4:30 PM
+                              </label>
+                            </div>
+                      
+                          </div>
+                        </div>
+                      </div>
+                
+
+                <div class="mt-4 d-flex justify-content-center align-items-center">
+                    <button type="submit" class="button btn btn-info w-50 "><span>Proceed to payment</span><i class="fa fa-long-arrow-right ms-2"></i></button>
+                </div>
+                </form>
+            </div>
+            
+        </div>
+        
+    </div>
+</div>
+{% block JScript %}
+<script>
+  price = localStorage['price'];
+  document.getElementById('price').value=price;
+  function getdate(){
+    let today = new Date();
+    // Change the date by adding 1 to it (today + 1 = tomorrow)
+    today.setDate(today.getDate() + 1);
+    // return yyyy-mm-dd format
+    let tommorow = today.toISOString().split('T')[0];
+    document.getElementById('date').min = tommorow; 
+  }
+
+  function dtcheck(){
+  var checkBox = document.getElementById("detailscheck");
+  var name = document.getElementById("bfname");
+  var phone = document.getElementById("bfphone");
+  var add = document.getElementById("bfaddress");
+  if(checkBox.checked == true){
+    name.value="{{info.fname}} {{info.lname}}";
+    phone.value = "{{info.phone}}";
+    add.value = "{{info.address}}"
+  }
+  else{
+    name.value="";
+    phone.value="";
+    add.value="";
+  }
+}
+</script>
+{% endblock JScript %}
+{% endblock body %}

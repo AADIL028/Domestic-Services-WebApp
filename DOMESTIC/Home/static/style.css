@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Titillium Web', sans-serif;
+  box-sizing: border-box;
+}
+
+
+.bod {
+  color: white;
+  font-size: 30px;
+  font-weight: bolder;
+  text-shadow: 3px 2px 2px rgb(85, 85, 92);
+}
+
+.p1 {
+  color: rgb(197, 197, 197);
+  font-size: 25px;
+  font-weight: bolder;
+  text-shadow: 3px 2px 2px rgb(85, 85, 92);
+}
+
+.ral {
+  font-family: 'Raleway', sans-serif;
+}
+
+.st {
+  top: 0;
+  z-index: 3;
+  position: sticky;
+}
+
+.cu-img {
+  width: 500px;
+}
+
+.dark {
+  background-color: rgb(0, 0, 0);
+}
+
+.btn:hover {
+  background-color: rgb(216, 0, 0);
+}
+
+input[type=email]:hover,
+input[type=password]:hover {
+  background-color: rgb(230, 230, 230);
+  cursor: pointer;
+}
+
+.is-justified {
+  text-align: justify;
+  margin: 0 auto;
+  max-width: 50em;
+}
+
+section {
+  padding: 0;
+  margin: 0;
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  /* background: #f093fb; */
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  /* background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)); */
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)) */
+
+
+  background: radial-gradient(50% 123.47% at 50% 50%, #00ff94 0%, #720059 100%),
+  linear-gradient(121.28deg, #669600 0%, #ff0000 100%),
+  linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+  radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
+  radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+background-blend-mode: screen, color-dodge, overlay, difference, normal;
+}
+
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+
+/* effects for footer */
+.icons:hover {
+  color: white;
+}
+
+.text-reset:hover {
+  text-decoration: underline;
+  text-decoration-color: rgb(138, 143, 147);
+}
+
+
+.card-review img {
+
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.starrating>input {
+  display: none;
+}
+
+/* Remove radio buttons */
+
+.starrating>label:before {
+  content: "\f005";
+  /* Star */
+  margin: 2px;
+  font-size: 22px;
+  font-family: FontAwesome;
+  display: inline-block;
+}
+
+.starrating>label {
+  color: #222222;
+  /* Start color when not clicked */
+}
+
+.starrating>input:checked~label {
+  color: #ffca08;
+}
+
+/* Set yellow color when star checked */
+
+.starrating>input:hover~label {
+  color: #ffca08;
+}
+
+/* Set yellow color when star hover */
+.cursive
+{
+  font-family: 'Caveat', cursive;
+}
+
+/* hover effect on cancel booking button */
+section header .btn-outline-danger:hover{
+  background-color: red;
+  color: white;
+}
+
+.dis {
+  margin: 3px;
+  display: none;
+  text-align: center;
+}

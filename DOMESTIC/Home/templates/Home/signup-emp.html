@@ -1,0 +1,264 @@
+{% extends 'basic.html' %}
+{% block title %} Employee-Signup {% endblock %}
+{% block body%}
+
+  <section class="vh-120 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h4 class="fw-bold pb-2">Share your details and we'll reach out with next steps.</h4>
+              <hr>
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form for Employees</h3>
+
+              <form class="needs-validation" action="{% url 'signup-emp' %}" method="post" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                  {% if error %}
+                  <div class="alert alert-danger">
+                  {{error}}
+                  </div>
+                  {% endif %}
+                  <div class="row">
+                    <div class="col-md-12 mb-4">
+                      <div class="form-outline">
+                        <input type="text" name="username" id="username" value="{{ values.uname }}"
+                          class="form-control form-control-lg " required />
+                        <label class="form-label" for="Username">User Name</label>
+                        <div class="invalid-feedback">
+                          Please enter Username
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                      <input type="text" id="firstName" value="{{ values.fname }}" class="form-control form-control-lg" name="firstname" required />
+                      <label class="form-label" for="firstName">First Name</label>
+                      <div class="invalid-feedback">
+                        Please enter First-Name.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                      <input type="text" id="lastName" value="{{ values.lname }}" class="form-control form-control-lg" name="lastname" required />
+                      <label class="form-label" for="lastName">Last Name</label>
+                      <div class="invalid-feedback">
+                        Please enter Last-Name.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 mb-4">
+                
+                    <div class="form-outline">
+                      <input type="text" name="houseno" value="{{ values.hno }}" id="houseno" class="form-control form-control-lg " required />
+                      <label class="form-label" for="houseno">House/Flate No.</label>
+                      <div class="invalid-feedback">
+                        Please enter House/Flate No.
+                      </div>
+                    </div>
+                
+                  </div>
+                </div>
+                
+                <div class="row">
+                  <div class="col-12 mb-0">
+                
+                    <div class="form-outline">
+                      <input type="text" name="area" id="area" value="{{ values.area }}" class="form-control form-control-lg" required />
+                      <label class="form-label" for="area">Street & Area</label>
+                      <div class="invalid-feedback">
+                        Please enter Street & Area.
+                      </div>
+                    </div>
+                
+                  </div>
+                </div>
+
+                <div class="row my-2">
+                  <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                    <div class="form-outline datepicker w-100">
+                      <input type="date" class="form-control form-control-lg" value="{{ values.dob }}" name="dob" id="birthdayDate" required />
+                      <label for="birthdayDate" class="form-label">Birthday</label>
+                      <div class="invalid-feedback">
+                        Please enter Birth-Date.
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-6 mb-4">
+
+                    <h6 class="mb-2 pb-1 form-label fw-bold">Gender: </h6>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="femaleGender"
+                        value="Female" required />
+                      <label class="form-check-label" for="femaleGender">Female</label>
+                      <div class="invalid-feedback">
+                        Please choose your gender.
+                      </div>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="maleGender"
+                        value="Male" />
+                      <label class="form-check-label" for="maleGender">Male</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="gender" id="otherGender"
+                        value="Other" />
+                      <label class="form-check-label" for="otherGender">Other</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="email" id="emailAddress" value="{{ values.email }}" class="form-control form-control-lg" name="email" required />
+                      <label class="form-label" for="emailAddress">Email</label>
+                      <div class="invalid-feedback">
+                        Please enter valid E-mail.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="tel" id="phoneNumber" placeholder="12345678" value="{{ values.phone }}" pattern="[0-9]{10}" maxlength="10" name="phone" class="form-control form-control-lg" required />
+                      <label class="form-label" for="phoneNumber">Phone Number</label>
+                      <div class="invalid-feedback">
+                        Please enter Phone-Number.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="password" id="password" class="form-control form-control-lg" required name="password" />
+                      <label class="form-label" for="password">Password</label>
+                      <div class="invalid-feedback">
+                        Password must contain minimum 8 characters, at least 1 uppercase letter, 1 special character (@,#,$, etc.), and 1 number.
+                       </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="password" id="re-password" class="form-control form-control-lg" name="re-password" required />
+                      <label class="form-label" for="re-password">Retype Password</label>
+                      <div class="invalid-feedback">
+                        Please retype your Password.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-12 mb-4 pb-2 mt-3">
+                    <label for="validationTooltip04" class="form-label select-label">Choose City:</label>
+                    <select class="form-select form-select-lg" name="city" id="validationTooltip04" required>
+                      <option class="form-label" selected disabled value="">Select the City</option>
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Gandhinagar">Gandhinagar</option>
+                      <option value="Vadodra">Vadodra</option>
+                      <option value="Surat">Surat</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select the City.
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 md-5 py-2">
+                    <label class="form-label" for="profession">What do you do?</label><br>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="profession" id="cleaning" value="Cleaning"
+                        required />
+                      <label class="form-check-label" for="cleaning">Cleaning</label>
+                      <div class="invalid-feedback">
+                        Please select your profession.
+                      </div>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="profession" id="electrician" value="Electrician" />
+                      <label class="form-check-label" for="electrician">Electrician</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="profession" id="plumber" value="Plumber" />
+                      <label class="form-check-label" for="plumber">Plumber</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="profession" id="carpenter" value="Carpenter" />
+                      <label class="form-check-label" for="carpenter" >Carpenter</label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" class="disabled" disabled="disabled" type="radio"
+                        name="profession" id="event" value="option5" />
+                      <label class="form-check-label" for="event">Event Management</label>
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <div class="mt-4 mb-0 pt-2">
+                  <input class="btn btn-success btn-lg fs-6" type="submit" value="Submit" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}
+{% block JScript%}
+<script>
+  function validatePassword() {
+    const passwordInput = document.getElementById('password');
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
+  
+    if (passwordInput.value.match(passwordRegex)) {
+      passwordInput.classList.add('is-valid');
+      passwordInput.classList.remove('is-invalid');
+    } else {
+      passwordInput.classList.add('is-invalid');
+      passwordInput.classList.remove('is-valid');
+    }
+  }
+  
+  // Add event listener to password input field
+  document.getElementById('password').addEventListener('input', validatePassword);
+</script>
+{% endblock %}

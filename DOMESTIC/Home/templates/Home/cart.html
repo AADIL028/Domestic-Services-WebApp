@@ -1,0 +1,166 @@
+{% extends 'basic.html' %}
+{% block title %} Cart {% endblock %}
+{% block css%}
+  <link rel="stylesheet" href="../static/cart.css">
+{% endblock %}
+
+{% block body%}
+<section class="h-100 mb-3" >
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <div class="row g-0">
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h1 class="fw-bold mb-0 text-black">Cart</h1>
+                   
+                    {% if serdic %}
+                    <h6 class="mb-0 text-muted"><span id="itemcount1">{{counter}}</span> items</h6>
+                    {% else %}
+                    <h6 class="mb-0 text-muted"><span id="itemcount1">0</span> items</h6>
+                    {% endif %}
+
+                  </div>
+                  <p id = "cartitems"></p>
+                  
+                  {% if serdic %}
+                  {% for item in serdic %}
+                  {% for serobj in item %}
+                  <hr class="my-4">
+                  <div class="row mb-4 d-flex justify-content-between align-items-center">
+                    <div class="col-md-2 col-lg-2 col-xl-2">
+                      <img
+                        src="/media/{{serobj.image}}"
+                        class="img-fluid rounded-3" alt="Service-image">
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <h6 class="text-muted">{{serobj.category}}</h6>
+                      <h6 class="text-black mb-0">{{serobj.ServiceName}}</h6>
+                    </div>
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                      <h6 class="mb-0" value="{{serobj.price}}">₹<span id="price-{{forloop.parentloop.counter}}">{{serobj.price}}</span></h6>
+                    </div>
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <form action="{% url 'remove_item' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="text" hidden value="{{serobj.category}}-{{serobj.sno}}" name="itemid">
+                      <button type="submit" class="bg-light border-0"><i class="fa fa-times"></i></button>
+                      </form>
+                    </div>
+                  </div>
+                  {% endfor %}
+                  {% endfor %}
+                  {% else %}
+                  <h5>No items in cart.</h5>
+                  {% endif %}
+                  <hr class="my-4">
+
+                  <div class="pt-5">
+                    <h6 class="mb-0"><a href="/" class="text-body">
+                      <i class="bi bi-arrow-left me-2"></i>Back</a></h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 bg-grey">
+                <div class="p-5">
+                  <h3 class="fw-bold mb-5 mt-2 pt-1">Summary</h3>
+                  <hr class="my-4">
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase">items <span id="itemcount2">0</span></h5>
+                    <h5>₹ <span id="sprice">0</span></h5>
+                  </div>
+
+                  
+                  <div class="d-flex justify-content-between mb-4">
+                      <h5 class="text-uppercase mb-3">Visit Charge</h5>
+                      <h5>+ ₹ <span id = "charge">00.00</span> </h5>
+                    </div>
+
+                  <h5 class="text-uppercase mb-3">Give code</h5>
+
+                  <div class="row g-3 mb-5">
+                    <div class="col-sm-8">
+                      <input type="text" class="form-control form-control-lg" id="dis_code" placeholder="Enter your code">
+                    </div>
+                    <div class="col-sm">
+                      <button class="form-control form-control-lg bg-dark text-light disabled" id="dis_btn" onclick="applycode()">Apply
+                      </button>
+                    </div>
+                    
+                      <p id="dis_message"></p>
+                   
+                  </div>
+
+
+                  <div class="d-flex justify-content-between mb-4">
+                    <h5 class="text-uppercase mb-3">Discount</h5>
+                    <h5>- ₹ <span id ="discount">00.00</span></h5>
+                  </div>
+
+                  <hr class="my-4">
+
+                  <div class="d-flex justify-content-between mb-5">
+                    <h5 class="text-uppercase">Total price</h5>
+                    <h5>₹ <span id ="gprice">00.00</span></h5>
+                  </div>
+
+                 <a href="{% url 'bookingform' %}"  type="button" class="btn btn-dark btn-block btn-lg"
+                    data-mdb-ripple-color="dark">Checkout</a>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block JScript %}
+<script>
+var icount = document.getElementById('itemcount1').innerHTML;
+document.getElementById('itemcount2').innerHTML=icount;
+gettotalprice();
+function gettotalprice(){
+var icount = document.getElementById('itemcount1').innerHTML;
+stotal=0;
+for(i=1;i<=icount;i++)
+{
+    document.getElementById('charge').innerHTML=150;
+    stotal = stotal + parseInt(document.getElementById('price-'+String(i)).innerHTML);
+  }
+
+  document.getElementById('sprice').innerHTML=stotal+".00";
+  stotal=stotal-document.getElementById('discount').innerHTML;
+  charge=document.getElementById('charge').innerHTML;
+  grandtotal=stotal+parseInt(charge);
+  document.getElementById('gprice').innerHTML=grandtotal;
+  localStorage['price']=parseInt(grandtotal);
+}
+
+function applycode(){
+  code = document.getElementById('dis_code').value;
+  console.log(code)
+  if(code=="Welcome10"){
+    price=document.getElementById('sprice').innerHTML;
+    discount=price/10;
+    document.getElementById('discount').innerHTML=discount;
+    document.getElementById('dis_message').innerHTML="Coupon applied successfully!";
+    document.getElementById('dis_btn').disabled=true;
+    document.getElementById('dis_code').disabled=true;
+    gettotalprice();
+  }
+  else
+  {
+    document.getElementById('dis_message').innerHTML="Invalid Coupon!";
+    
+  }
+}
+</script>
+{% endblock %}

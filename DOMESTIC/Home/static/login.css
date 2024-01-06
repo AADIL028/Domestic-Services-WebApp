@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@200&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: bolder;
+}
+
+.gradient-custom {
+    /* fallback for old browsers */
+    /* background: #f093fb; */
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    /* background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)); */
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)) */
+  
+    background: radial-gradient(50% 123.47% at 50% 50%, #00ff94 0%, #720059 100%),
+    linear-gradient(121.28deg, #669600 0%, #ff0000 100%),
+    linear-gradient(360deg, #0029ff 0%, #8fff00 100%),
+    radial-gradient(100% 164.72% at 100% 100%, #6100ff 0%, #00ff57 100%),
+    radial-gradient(100% 148.07% at 0% 0%, #fff500 0%, #51d500 100%);
+    background-blend-mode: screen, color-dodge, overlay, difference, normal;
+}
+
+.form-section {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+
+@media (max-width: 767px) {
+    .form-section {
+        padding: 35px;
+    }
+}
+
+.login-wrapper {
+    width: 300px;
+    max-width: 100%;
+}
+
+@media (max-width: 575px) {
+    .login-wrapper {
+        width: 100%;
+    }
+}
+
+.login-wrapper .form-control {
+    border: 0;
+    border-bottom: 1px solid #e7e7e7;
+    border-radius: 0;
+    font-size: 14px;
+    /* font-weight: bold; */
+    padding: 15px 10px;
+    margin-bottom: 7px;
+}
+
+.login-wrapper .form-control::-webkit-input-placeholder {
+    color: #b0adad;
+}
+
+.login-wrapper .form-control::-moz-placeholder {
+    color: #b0adad;
+}
+
+.login-wrapper .form-control:-ms-input-placeholder {
+    color: #b0adad;
+}
+
+.login-wrapper .form-control::-ms-input-placeholder {
+    color: #b0adad;
+}
+
+.login-wrapper .form-control::placeholder {
+    color: #b0adad;
+}
+
+.login-title {
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+
+.login-btn {
+    padding: 13px 30px;
+    background-color: #000;
+    border-radius: 0;
+    font-size: 20px;
+    color: #fff;
+}
+
+.login-btn:hover {
+    border: 1px solid #000;
+    background-color: transparent;
+    color: #000;
+}
+
+.forgot-password-link {
+    font-size: 14px;
+    color: #080808;
+    text-decoration: underline;
+}

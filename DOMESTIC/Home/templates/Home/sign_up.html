@@ -1,0 +1,221 @@
+{% extends 'basic.html' %}
+{% block title %} Sign-Up {% endblock %}
+{% block body%}
+
+  <!-- form -->
+  <section class="vh-120 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-7">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 d-flex justify-content-center">Registration Form</h3>
+
+              <form action="{% url 'sign_up' %}" class="needs-validation" method="POST" novalidate>
+                {% csrf_token %}
+                <div class="row">
+                  {% if error %}
+                  <div class="alert alert-danger">
+                    {{error}}
+                  </div>
+                  {% endif %}
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12 mb-4">
+                    <div class="form-outline">
+                      <input type="text" name="username" id="username" value="{{ values.uname }}"
+                        class="form-control form-control-lg " required />
+                      <label class="form-label" for="Username">User Name</label>
+                      <div class="invalid-feedback">
+                        Please enter Username
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                      <input type="text" name="firstname" id="firstName" class="form-control form-control-lg " value="{{ values.fname }}"
+                        required />
+                      <label class="form-label" for="firstName">First Name</label>
+                      <div class="invalid-feedback">
+                        Please enter First-Name.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4">
+
+                    <div class="form-outline">
+                      <input type="text" name="lastname" id="lastName" value="{{ values.lname }}"
+                        class="form-control form-control-lg" required />
+                      <label class="form-label" for="lastName">Last Name</label>
+                      <div class="invalid-feedback">
+                        Please enter Last-Name.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="tel" name="phone" id="phoneNumber" placeholder="12345678" pattern="[0-9]{10}"
+                        class="form-control form-control-lg" maxlength="10" value="{{ values.phone }}" required />
+                      <label class="form-label" for="phoneNumber">Phone Number</label>
+                      <div class="invalid-feedback">
+                        Please enter valid Mobile-Number.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="email" name="email" id="emailAddress" class="form-control form-control-lg" value="{{ values.email }}"
+                        required />
+                      <label class="form-label" for="emailAddress">Email</label>
+                      <div class="invalid-feedback">
+                        Please enter valid E-mail.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 mb-4">
+
+                    <div class="form-outline">
+                      <input type="text" name="houseno" id="houseno" class="form-control form-control-lg "
+                        value="{{ values.hno }}" required />
+                      <label class="form-label" for="houseno">House/Flate No.</label>
+                      <div class="invalid-feedback">
+                        Please enter House/Flate No.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-12 mb-0">
+
+                    <div class="form-outline">
+                      <input type="text" name="area" id="area" class="form-control form-control-lg"
+                        value="{{ values.area }}" required />
+                      <label class="form-label" for="area">Street & Area</label>
+                      <div class="invalid-feedback">
+                        Please enter Street & Area.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6 mt-5 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="text" name="zipn" id="zip" placeholder="380000" pattern="[0-9]{6}" maxlength="6"
+                        minlength="6" class="form-control form-control-lg" required  />
+                      <label class="form-label" for="zip">Zip</label>
+                      <div class="invalid-feedback">
+                        Please enter valid Zip.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mt-3 mb-4 pb-2">
+                    <label for="validationTooltip04" class="form-label select-label">Choose City:</label>
+                    <select class="form-select form-select-lg" name="city" id="validationTooltip04" required>
+                      <option class="form-label" selected disabled value="">Select the City</option>
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Gandhinagar">Gandhinagar</option>
+                      <option value="Vadodra">Vadodra</option>
+                      <option value="Surat">Surat</option>
+                    </select>
+                    <div class="invalid-feedback">
+                      Please select city.
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="password" name="password" id="password" class="form-control form-control-lg"
+                        required />
+                      <label class="form-label" for="password">Password</label>
+                      <div class="invalid-feedback">
+                       Password must contain minimum 8 characters, at least 1 uppercase letter, 1 special character (@,#,$, etc.), and 1 number.
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-md-6 mb-4 pb-2">
+
+                    <div class="form-outline">
+                      <input type="password" id="re-password" class="form-control form-control-lg" name="re-password" required />
+                      <label class="form-label" for="re-password">Retype Password</label>
+                      <div class="invalid-feedback">
+                        Please retype your password.
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+
+                <div class="row mt-3">
+                  <div class="mb-2 col-md-6">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                      <label class="form-check-label" for="invalidCheck">
+                        Agree to terms and conditions
+                      </label>
+                      <div class="invalid-feedback">
+                        You must agree before submitting.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-2">
+                  <input class="btn btn-dark btn-lg" type="submit" value="Submit" />
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {% endblock%}
+  {% block JScript%}
+  <script>
+    function validatePassword() {
+      const passwordInput = document.getElementById('password');
+      const passwordRegex = /^(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[0-9])(?=.*[a-z]).{8,}$/;
+    
+      if (passwordInput.value.match(passwordRegex)) {
+        passwordInput.classList.add('is-valid');
+        passwordInput.classList.remove('is-invalid');
+      } else {
+        passwordInput.classList.add('is-invalid');
+        passwordInput.classList.remove('is-valid');
+      }
+    }
+    
+    // Add event listener to password input field
+    document.getElementById('password').addEventListener('input', validatePassword);
+  </script>
+  {% endblock %}
+  

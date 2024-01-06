@@ -1,0 +1,183 @@
+{% extends 'basic.html' %}
+{% block title %} Bookings {% endblock %}
+{% block css %}
+<style>
+.centered {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.jumbotron {
+  background-color: #fff;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+p {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+</style>
+{% endblock %}
+{% block body%}
+
+  <div class="text-center mt-3 fw-bolder">
+    <h1> Your Bookings </h1>
+  </div>
+  <hr>
+  <!-- Condition for cancelation -->
+  {% if 'is_cancelled' in request.session %}
+    {% if request.session.is_cancelled == True %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+      Your last cancellation request has been accepted. The service has been successfully cancelled.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% else %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+      Sorry to hear that your last booking cancellation request was denied. Please note that in order to cancel a service, you must do so at least 24 hours before the scheduled service time.
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+  {% endif %}
+  <!-- Condition end for cancelation -->
+
+<!-- showing orders -->
+  {% if bookings %}
+  {% for booking in bookings %}
+  <form action="/cancelbooking" method="post" id="cancel-{{booking.BookingId}}">
+    {% csrf_token %}
+    <input name="book_id" value="{{booking.BookingId}}" type="hidden">
+  <section class="vh-120 mb-3">
+    <div class="container pt-5 pb-0 h-100">
+      <div class="row justify-content-center align-items-center h-100">
+        <div class="col-12 col-lg-9 col-xl-10">
+          <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card-body">
+              <header class="d-lg-flex">
+                <div class="flex-grow-1">
+                  <h6 class="mb-0" >Booking ID: <span id="book_id">{{booking.BookingId}}</span> <i class="dot"></i>
+                    {% if booking.complete_status %}
+                    <span class="badge rounded-pill text-light text-bg-success"> Completed</span>
+                    {% elif booking.cancel_booking %}
+                    <span class="badge rounded-pill text-light text-bg-danger"> Canceled</span>
+                    {% else %}
+                    <span class="badge rounded-pill text-light text-bg-primary">Pending</span>
+                    {% endif %}
+                  </h6>
+                  <span class="text-muted">Booked on: {{booking.booking_date}}</span><br>
+                  <span class="text-muted">Service Date: {{booking.service_date}}</span><br>
+                  <span class="text-muted">Slote: {{booking.slote}}</span><br>
+                  <span class="text-muted">OTP: {{booking.otp}}</span><br>
+                  <span class="text-muted">(OTP must Provide to service person after completing of service.)</span>
+                </div>
+                <div>
+                  <button type="button" class="btn btn-sm btn-outline-danger {% if booking.complete_status or booking.cancel_booking %}disabled{% endif %}" onclick="submitForm('cancel-{{booking.BookingId}}','{{booking.BookingId}}')" >Cancel Booking</button>
+                </div>
+              </header>
+              <hr>
+              <div class="row"> 
+                <div class="col-lg-4">
+                  <p class="mb-0 text-muted">Contact Service-provider</p>
+                    {% for emplist in ass_emp %}
+                    {% if forloop.counter == forloop.parentloop.counter %}
+                    {% for emp in emplist %}
+                  <p class="m-0">
+                  <b>For {{emp.work}} Contact :</b><br>  Name:  {{emp.fname}} <br>Phone: {{emp.phone}} 
+                  </p>
+                  {% endfor %}
+                  {% endif %}
+                  {% endfor %}
+                </div> <!-- col.// -->
+                <div class="col-lg-4 border-start">
+                  <p class="mb-0 text-muted">Service address</p>
+                  <p class="m-0"> {{booking.name}} - {{booking.phone}} <br>
+                    {{booking.address}} </p>
+                  </div> <!-- col.// -->
+                  <div class="col-lg-4 border-start">
+                    <p class="mb-0 text-muted">Payment</p>
+                    {% if booking.complete_status %}
+                    <p class="m-0">
+                      Total charge: ₹ {{booking.price}}.00 <br>
+                      <span class="text-success"> Total paid: ₹ {{booking.price}}.00 </span> <br>
+                      <span class="text-danger"> To pay: ₹ 00.00 </span> <br>
+                    </p>
+                    {% else %}
+                    <p class="m-0">
+                      Total charge: ₹ {{booking.price}}.00 <br>
+                      <span class="text-success"> Total paid: ₹ 00.00 </span> <br>
+                      <span class="text-danger"> To pay: ₹ {{booking.price}}.00 </span> <br>
+                    </p>
+                  {% endif %}
+                </div> <!-- col.// -->
+              </div> <!-- row.// -->
+              <hr>
+              <ul class="row" style="list-style: none;">
+              </form>
+                
+                {% for templist in bookingserlist %}
+                {% if forloop.counter == forloop.parentloop.counter %}
+                {% for ser in templist %}
+                <li class="col-xl-4  col-lg-6">
+                  <figure class="itemside mb-3">
+                    <div class="aside">
+                      <img width="72" height="72" src="/media/{{ser.image}}" class="img-sm rounded border">
+                    </div>
+                    <figcaption class="info">
+                      <p class="title">{{ser.ServiceName}}</p>
+                      <strong> ₹ {{ser.price}}.00 </strong>
+                    </figcaption>
+                  </figure>
+                </li>
+                {% endfor %}
+                {% endif %}
+                {% endfor %}
+                
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% endfor %}
+
+  {% else %}
+  <div class="container my-5" style="min-height: 400px;display: flex;
+  flex-direction: column;justify-content: center;align-items: center;">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="jumbotron">
+          <h1 class="display-4 ">No bookings found</h1>
+          <p class="lead">Sorry, it looks like you do not have any bookings with us at this time.</p>
+          <hr class="my-4">
+          <p>Please check back later or contact us if you believe this is an error.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block JScript %}
+<script>
+  function submitForm(formId,bookid) {
+    if (confirm("Are you sure you want to cancel the booking with booking id : "+bookid+" ?")) {
+      document.getElementById(formId).submit();
+    }
+  }
+  </script>
+{% endblock %}

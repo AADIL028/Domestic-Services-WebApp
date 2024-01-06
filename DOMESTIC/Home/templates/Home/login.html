@@ -1,0 +1,77 @@
+{% extends 'basic.html' %}
+{% block title %} Login {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="../static/login.css">
+{% endblock %}
+{% block body %}
+<section class="vh-120 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+          <div class="card-body p-4 p-md-5 my-4">
+            <h2 class="fw-bold pb-2 text-center">Login</h2>
+            {% if error %}
+            <div class="alert alert-danger">
+              {{error}}
+            </div>
+            {% endif %}
+            <div class="d-flex justify-content-center align-items-center my-3">
+              <img src="../static/profile.png" class="rounded-circle"
+                style="width: 150px;margin-right: 100px;margin-bottom: 100px;" alt="Avatar" />
+
+              <div class="col-sm-6 col-md-5 form-section">
+                <div class="login-wrapper mt-3">
+                  <form action="{% url 'login' %}" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="email" class="sr-only">Username</label>
+                      <input type="text" name="username" id="username" class=" form-control"
+                        placeholder="Email / Username" value="{{uname}}" required>
+                    </div>
+                    <div class="form-group mb-3">
+                      <label for="password" class="sr-only">Password</label>
+                      <input type="password" name="password" id="password" class="form-control" placeholder="Password"
+                        required> <span class="bi bi-eye-slash toggle-password" toggle="#password" style="cursor:pointer;font-size: smaller;" id="togglePasword">  Show/Hide Password</span>
+                    </div>
+                    <input type="checkbox" class="link-danger" name="check" id="" value="ServiceProvider"> Login as a
+                    Service Provider
+                    <div class="d-flex justify-content-between align-items-center mt-3 mb-5">
+                     <input name="login" id="login" class="btn login-btn" type="submit" value="Login">
+                     <a href="/reset_password" class="forgot-password-link">Forgot Password?</a>
+                    </div>
+                    <p class="login-wrapper-footer-text">Need an account?<a href="../account/sign_up"
+                        class="text-reset">Signup
+                        here</a></p>
+                    <a href="../account/signup-emp" class="link-info"
+                      style="text-decoration: underline;font-size: larger;">Register as a Professional</a><br>
+                    
+                </div>
+              </div>
+            </div>
+            </form>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block JScript %}
+  <script>
+    $(".toggle-password").click(function(){
+      $(this).toggleClass("bi bi-eye");
+      var input = $($(this).attr("toggle"));
+      if(input.attr("type")=="password"){
+        input.attr("type","text");
+      }else{
+        input.attr("type","password");
+      }
+    });
+
+  </script>
+{% endblock %}

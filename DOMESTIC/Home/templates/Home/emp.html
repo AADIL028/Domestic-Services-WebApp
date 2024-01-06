@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMESTIC ON MODE</title>
+    {% load static %}
+    <link rel="stylesheet" href="../static/utils.css">
+    <link rel="stylesheet" href="../static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="shortcut icon" href="../static/house-cleaning.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet">
+
+</head>
+
+<body style="background-color: #eee;padding: 0;">
+    <nav class="navbar navbar-expand-lg  navbar-dark  sticky-top dark">
+        <div class="container-fluid ">
+            <a class="navbar-brand" href="#">DOMESTIC On MODE <i class="bi bi-fire"></i></a>
+            <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa fa-bars"></i>
+            </button>
+
+            <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/emp' or request.path == '/account/emp' %}active{% endif %}" aria-current="page"
+                            href="/emp">
+                            <i class="fa fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        {% if user.is_authenticated %}
+                        <a class="nav-link disabled " href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        {% else %}
+                        <a class="nav-link {% if request.path == '/login/' or request.path == '/account/login' %}active{% endif %}"
+                            href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="btn-group mx-2 dark">
+            <button type="button" class="btn btn-primary px-4 dropdown-toggle ral fw-bold" data-bs-toggle="dropdown"
+                aria-expanded="false"><i class="bi bi-person-circle"></i>
+                Account
+            </button>
+            <ul class="dropdown-menu fs-5 fw-bold" style="margin:0 -28px;margin-top: 12px;">
+                 <li><a class="dropdown-item {% if request.path == '/emp_profile' %}active{% endif %}"
+                        href="/emp_profile"><i class="bi bi-person"></i> Profile</a></li>
+                <li> 
+                    {% if user.is_authenticated %}
+                    <a class="dropdown-item disabled" href="/login"><i class="bi bi-box-arrow-in-right "></i> Login</a>
+                    {% else %}
+                    <a class="dropdown-item {% if request.path == '/login/' or request.path == '/account/login' %}active{% endif %}"
+                        href="/login"><i class="bi bi-box-arrow-in-right "></i> Login</a>
+                    {% endif %}
+                </li>
+                <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i> Log
+                        Out</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="text-center mt-3 fw-bolder">
+        <h1> Your Assigned Works </h1>
+    </div>
+    <hr>
+    <!-- Condition for completed service -->
+  {% if 'is_completed' in request.session %}
+  {% if request.session.is_completed == True %}
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    Your last completed service request has been accepted. The service has been successfully Completed.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% else %}
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    OTP is not matching.Please varify and re-enter the otp.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+  {% endif %}
+{% endif %}
+
+<!--for displaying service-->
+    {% for booking in bookings %}
+  <form action="/completebooking" method="post" id="complete-{{booking.BookingId}}">
+    {% csrf_token %}
+    <input type='hidden' value='{{booking.BookingId}}' name='book_id'>
+    <input type='hidden' id='otp-{{booking.BookingId}}' value='' name='otp'>
+    <section class="vh-120">
+        <div class="container pt-5 pb-0 h-100">
+            <div class="row justify-content-center align-items-center h-100">
+                <div class="col-12 col-lg-9 col-xl-10">
+                    <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                        <div class="card-body">
+                            <header class="d-lg-flex">
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0">Booking ID: {{booking.BookingId}} <i class="dot"></i>
+                                        {% if booking.complete_status %}
+                                        <span class="badge rounded-pill text-light text-bg-success"> Completed </span>
+                                        {% elif booking.cancel_booking %}
+                                        <span class="badge rounded-pill text-light text-bg-danger"> Canceled </span>
+                                        {% else %}
+                                        <span class="badge rounded-pill text-light text-bg-primary"> Pending</span>
+
+                                        {% endif %}
+                                    </h6>
+                                    <span class="text-muted">Date: {{booking.service_date}}</span><br>
+                                    <span class="text-muted">Slote: {{booking.slote}}</span>
+                                </div>
+                                <div>
+                                <button type="button" class="btn btn-sm  text-light bg-primary {% if booking.complete_status or booking.cancel_booking %}disabled{% endif %}" onclick="submitForm('complete-{{booking.BookingId}}','{{booking.BookingId}}')">Complete Booking</button>
+                                </div>
+                            </header>
+                            <hr>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    {% for cus in Customer %}
+                                    <p class="mb-0 text-muted"><i class="fa fa-home"></i> Service address</p>
+                                    <p class="m-0"> {{cus.fname}} - {{cus.phone}} <br>
+                                        {{cus.address}} </p>
+                                    {% endfor %}
+                                </div> 
+                                <div class="col-lg-4 border-start">
+                                    <p class="mb-0 text-muted"><i class="fa fa-rupee"></i> Payment</p>
+                                    <p class="m-0">
+                                        Total charge: ₹ {{booking.price}}.00 <br>
+                                        {% if booking.complete_status %}
+                                        <span class="text-success"> Total paid: ₹ {{booking.price}}.00 </span> <br>
+                                        <span class="text-danger"> To pay: ₹ 00.00 </span> <br>
+                                        {% else %}
+                                        <span class="text-success"> Total paid: ₹ 00.00 </span> <br>
+                                        <span class="text-danger"> To pay: ₹ {{booking.price}}.00 </span> <br>
+
+                                        {% endif %}
+                                    </p>
+                                </div> 
+                            </div> 
+                            <hr>
+                            <ul class="row" style="list-style: none;">
+                            </form>
+                                {% for templist in service %}
+                                {% if forloop.counter == forloop.parentloop.counter %}
+                                {% for ser in templist %}
+                                <li class="col-xl-4  col-lg-6">
+                                <figure class="itemside mb-3">
+                                    <div class="aside">
+                                    <img width="72" height="72" src="/media/{{ser.image}}" class="img-sm rounded border">
+                                    </div>
+                                    <figcaption class="info">
+                                    <p class="title">{{ser.ServiceName}}</p>
+                                    <strong> ₹ {{ser.price}}.00 </strong>
+                                    </figcaption>
+                                </figure>
+                                </li>
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endfor %}
+
+<script>
+  function submitForm(formId,bookid) {
+
+    var otp = window.prompt("Enter OTP for Booking id : "+bookid+" which is provided to customer in his boookings page.");
+    document.getElementById('otp-'+bookid).value=otp;
+    document.getElementById(formId).submit();
+  }
+</script>
+    <script src="../static/jquery-3.6.3.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="../static/index.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+</body>
+
+</html>

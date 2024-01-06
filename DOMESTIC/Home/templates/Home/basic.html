@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% comment %} <title>DOMESTIC ON MODE</title> {% endcomment %}
+  <title>{% block title %} {% endblock %} - Domestico</title> 
+  {% load static %}
+  <link rel="stylesheet" href="../static/utils.css">
+  <link rel="stylesheet" href="../static/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" href="../static/house-cleaning.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet">
+  {% block css %} {% endblock %}
+
+</head>
+
+<body style="background-color: #eee;padding: 0;">
+  <nav class="navbar navbar-expand-lg  navbar-dark  sticky-top dark">
+    <div class="container-fluid ">
+      <a class="navbar-brand" href="#">DOMESTIC On MODE <i class="bi bi-fire"></i></a>
+      <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fa fa-bars"></i>
+      </button>
+
+      <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="/"> <i class="fa fa-home"></i> Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/aboutus/' %}active{% endif %}" href="/aboutus"> <i class="fa fa-users"></i> About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.path == '/contactus/' %}active{% endif %}" href="/contactus"><i class="fa fa-phone"></i> Contact Us</a>
+          </li>
+          <li class="nav-item">
+            {% if user.is_authenticated %}
+            <a class="nav-link disabled " href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            {% else %}
+            <a class="nav-link {% if request.path == '/login/' or request.path == '/account/login' %}active{% endif %}" href="/login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+            {% endif %}
+          </li>
+          <li class="nav-item">
+          {% if user.is_authenticated %}
+            <a class="nav-link {% if request.path == '/cart/' or request.path == '/account/cart' %}active{% endif %}" href="/cart"><i class="fa fa-shopping-cart fs-5"></i> Cart</a>
+            {% else %}
+            <a class="disabled nav-link {% if request.path == '/cart/' or request.path == '/account/cart' %}active{% endif %}" href="/cart"><i class="fa fa-shopping-cart fs-5"></i> Cart</a>
+            
+            {% endif %}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-light dropdown-toggle ral fw-bold" data-bs-toggle="dropdown"
+        aria-expanded="false"><i class="bi bi-view-list"></i>
+        View Services
+      </button>
+      <ul class="dropdown-menu fs-5 fw-bold">
+        <li><a class="dropdown-item {% if request.path == '/cleanning/' or request.path == '/services/cleanning' %}active{% endif %}" href="/cleanning">Cleanning</a></li>
+        <li><a class="dropdown-item {% if request.path == '/plumbing/' or request.path == '/services/plumbing' %}active{% endif %}" href="/plumbing">Plumbing</a></li>
+        <li><a class="dropdown-item {% if request.path == '/electrics/' or request.path == '/services/electrics'%}active{% endif %}" href="/electrics">Electrician</a></li>
+        <li><a class="dropdown-item {% if request.path == '/carpenter/' or request.path == '/services/carpenter' %}active{% endif %}" href="/carpenter">CarPentering</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item disabled" href="/">Events manage<span class="badge badge-success align-top"> coming
+              soon</span></a></li>
+      </ul>
+    </div>
+    <div class="btn-group mx-2 dark">
+      <button type="button" class="btn btn-primary px-4 dropdown-toggle ral fw-bold" data-bs-toggle="dropdown"
+        aria-expanded="false"><i class="bi bi-person-circle"></i>
+        Account
+      </button>
+      <ul class="dropdown-menu fs-5 fw-bold" style="margin:0 -28px;margin-top: 12px;">
+        {% if user.is_authenticated %}
+        <li><a class="dropdown-item {% if request.path == '/profile/' %}active{% endif %}" href="/profile"><i class="bi bi-person"></i> Profile</a></li>
+        <li>
+          <a class="dropdown-item disabled" href="/login"><i class="bi bi-box-arrow-in-right "></i> Login</a>
+        </li>
+        <li><a class="dropdown-item {% if request.path == '/bookings/' or request.path == '/account/bookings' %}active{% endif %}" href="/bookings"> <i class="bi bi-card-text"></i> Bookings</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i> Log Out</a></li>
+        {% else %}
+        <li><a class="dropdown-item disabled {% if request.path == '/profile/' %}active{% endif %}" href="/profile"><i class="bi bi-person"></i> Profile</a></li>
+        <li>
+          <a class="dropdown-item" href="/login"><i class="bi bi-box-arrow-in-right "></i> Login</a>
+        </li>
+        <li><a class="dropdown-item disabled {% if request.path == '/bookings/' or request.path == '/account/bookings' %}active{% endif %}" href="/bookings"> <i class="bi bi-card-text"></i> Bookings</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li><a class="dropdown-item disabled" href="{% url 'logout' %}"><i class="bi bi-box-arrow-in-left"></i> Log Out</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+  
+  <!-- Modal for term ans conditions-->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content px-5 py-3">
+        <div class="modal-header">
+          <h3 class="modal-title" id="staticBackdropLabel">Term and Conditions</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body mt-3">
+            <h5> Welcome to Domestico. By accessing or using our services, you agree to be bound by the following terms and conditions:</h5>
+            <br>
+            <p><b>1. Scope of Services</b></p>
+            <p>• We provide cleaning, electrician, plumbing, and carpentry services to our customers. We aim to offer these services with the utmost professionalism and quality.</p>
+            
+            <p><b>2. Booking and Payment</b></p>
+            <p>• book any of our services, you must provide accurate and complete information about the service required. Payment must be made in advance to confirm the booking. We accept online payments through our website or other third-party payment gateways.</p>
+      
+            <p><b>3. Cancellation and Rescheduling</b></p>
+            <p>• If you wish to cancel or reschedule a booking, you must inform us at least 24 hours before the scheduled appointment. Failure to do so will result in a cancellation fee. We reserve the right to cancel or reschedule any booking due to unforeseen circumstances.</p>
+      
+            <p><b>4. Service Guarantee</b></p>
+            <p>• We aim to provide high-quality services to our customers. If you are not satisfied with the service provided, please contact us within 24 hours, and we will endeavor to rectify the issue.</p>
+      
+            <p><b>5. Liability</b></p>
+            <p>• While we take every precaution to ensure the safety of our customers and their property, we cannot be held liable for any damages or losses incurred during the service. We recommend that you keep valuable items and personal belongings out of the service area.</p>
+      
+            <p><b>6. Warranty</b></p>
+            <p>• We offer a warranty period of 7 days for our services. If any issues arise within this period, please contact us, and we will rectify the issue.</p>
+      
+            <p><b>7. Intellectual Property</b></p>
+            <p>• All content on our website, including text, graphics, logos, images, and software, is the property of [Website Name] and is protected by international copyright laws. You may not copy, modify, distribute, or use any of our content without our prior written consent.</p>
+      
+            <p><b>8. Termination</b></p>
+            <p>• We reserve the right to terminate or suspend your access to our services at any time, without notice or liability, for any reason, including breach of these terms and conditions.</p>
+      
+            <p><b>9. Governing Law</b></p>
+            <p>• These terms and conditions are governed by and construed in accordance with the laws of India, and any disputes relating to these terms and conditions will be subject to the exclusive jurisdiction of the courts of Ahmedabad.</p>
+      
+            <p><b>10. Amendments</b></p>
+            <p>• We reserve the right to modify these terms and conditions at any time without prior notice. By continuing to access or use our services, you agree to be bound by the revised terms and conditions.</p>
+      
+            <h6>>> If you have any questions about these terms and conditions, please contact us at "domesticood2c@gmail.com".</h6>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Modal for privacy policy -->
+<div class="modal fade" id="privacypolicy" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content px-5 py-3">
+      <div class="modal-header">
+        <h3 class="modal-title" id="staticBackdropLabel">Privacy Ploicy</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mt-3">
+        <h5>This Privacy Policy applies to the website domestico owned and operated by us. We respect your privacy and are committed to protecting it through our compliance with this policy.</h5>
+        <br>
+        <h5>This policy describes:</h5>
+        
+        • The types of information we may collect from you when you access or use our Site.
+        <br>• Our practices for collecting, using, maintaining, protecting, and disclosing that information.
+        <br>• Your rights and choices regarding our use of your information.
+        <br>  
+       <p> Please read this policy carefully to understand our policies and practices regarding your information. If you do not agree with our policies and practices, do not use our Site. By accessing or using our Site, you agree to this Privacy Policy.</p>
+
+        <p>1. Information We Collect</p>
+        We may collect several types of information from and about users of our Site, including:
+
+       <br> • Personal Information: We may collect personal information that can be used to identify you, such as your name, address, email address, and phone number.
+       <br> • Payment Information: We may collect payment information, such as credit or debit card numbers, when you make a payment for our services.
+       <br> • Usage Information: We may collect information about how you use our Site, such as the pages you visit, the links you click, and the searches you conduct on our Site.
+       <br> • Device Information: We may collect information about the device you use to access our Site, such as your IP address, browser type, and operating system.
+       <br> We collect this information directly from you when you provide it to us or automatically as you navigate through our Site.
+        <br><br>
+        <p>2. How We Use Your Information</p>
+        We may use the information we collect from and about you for various purposes, including:
+        
+        <br> • To provide our services to you.
+        <br> • To communicate with you about our services and promotions.
+        <br> • To process your payments.
+        <br> • To personalize your experience on our Site.
+        <br> • To analyze how users use our Site and to improve our Site and services.
+        <br> • To protect our legal rights and interests.
+       <br> We may also use your information to send you marketing communications about our services or to ask for your feedback about our services. You can opt-out of receiving marketing communications from us at any time by following the instructions in the communication.
+        <br><br>
+        <p>3. How We Share Your Information</p>
+        We may share your information with third parties for various purposes, including:
+        
+        <br> • Service Providers: We may share your information with service providers who help us provide our services, such as payment processors, hosting providers, and email service providers.
+        <br> • Business Partners: We may share your information with business partners who help us offer our services to you, such as marketing partners.
+        <br> • Legal Requirements: We may disclose your information if required to do so by law or in the good-faith belief that such action is necessary to comply with legal obligations or to protect and defend our legal rights or property.
+        <br> • Merger or Acquisition: We may disclose and transfer your information if we are involved in a merger, acquisition, or sale of all or a portion of our assets.
+        <br><br> 
+        
+        <p>4. Your Rights and Choices</p>
+        You have certain rights and choices regarding our use of your information, including:
+        
+        <br> • Accessing and Correcting Your Information: You may access and correct the information we have about you by contacting us using the contact information provided below.
+        <br> • Opting-Out of Marketing Communications: You may opt-out of receiving marketing communications from us by following the instructions in the communication.
+        <br> • Do Not Track: Our Site does not respond to "Do Not Track" signals.
+        <br> • Cookie Choices: You can set your browser to refuse all or some browser cookies or to alert you when cookies are being sent.
+        <br><br>
+        
+        <p>5. Data Security</p>
+         • We have implemented measures designed to secure your personal information from accidental loss and from unauthorized access, use, alteration, and disclosure. We use industry-standard encryption technologies to protect your information during transmission. However, no method of transmission over the internet or electronic storage is 100% secure, and we cannot guarantee absolute security. Therefore, while we strive to use commercially acceptable means to protect your personal information, we cannot guarantee its absolute security.
+        <br>
+         • We also limit access to your personal information to those employees, agents, contractors, and third-party service providers who have a need to know such information to perform their job duties or provide services to us. They are required to keep your information confidential and secure.
+        <br><br> 
+        
+        <p>6. Changes to this Policy</p>
+        • We may update this Privacy Policy from time to time. We will notify you of any material changes to this policy by posting the new policy on this page with a new effective date. Your continued use of our Site after we make changes to this policy is deemed acceptance of those changes.
+         <br><br>
+        <p>7. Contact Us</p>
+        • If you have any questions or concerns about this Privacy Policy or our practices regarding your personal information, please contact us.
+         
+         
+         
+         
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% block body %} {% endblock  %}
+
+  <!-- Footer -->
+
+  <!-- Footer -->
+  <footer class="text-center text-lg-start text-white dark">
+    <!-- Section: Social media -->
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+      <!-- Left -->
+      <div class="me-5 d-none d-lg-block">
+        <span>Get connected with us on social networks:</span>
+      </div>
+      <!-- Left -->
+
+      <!-- Right -->
+      <div>
+        <a href="" class="me-4 link-secondary">
+          <i class="bi bi-facebook icons"></i>
+        </a>
+        <a href="" class="me-4 link-secondary">
+          <i class="bi bi-twitter icons"></i>
+        </a>
+        <a href="" class="me-4 link-secondary">
+          <i class="bi bi-google icons"></i>
+        </a>
+        <a href="" class="me-4 link-secondary">
+          <i class="bi bi-instagram icons"></i>
+        </a>
+      </div>
+      <!-- Right -->
+    </section>
+    <!-- Section: Social media -->
+
+    <!-- Section: Links  -->
+    <section class="footer-cont ">
+      <div class="container text-center text-md-start mt-5">
+        <!-- Grid row -->
+        <div class="row mt-3">
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <!-- Content -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="bi bi-gem me-3 text-secondary"></i>Domestic Services
+            </h6>
+            <p>
+              Let us take care of your home, so you can focus on what truly matters.<br>
+              Experience hassle-free home maintenance with our top-rated domestic services.
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Services
+            </h6>
+            <p>
+              <a href="/cleanning" class="text-reset">Cleaning</a>
+            </p>
+            <p>
+              <a href="/plumbing" class="text-reset">Plumbing</a>
+            </p>
+            <p>
+              <a href="/electrics" class="text-reset">Electrician</a>
+            </p>
+            <p>
+              <a href="/carpenter" class="text-reset">Carpenter</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Useful links
+            </h6>
+            <p>
+              <a href="/" class="text-reset">Home</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset" data-bs-toggle="modal" data-bs-target="#privacypolicy">Privacy Policy</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Term & Conditions</a>
+            </p>
+            <p>
+              <a href="#!" class="text-reset">Help</a>
+            </p>
+          </div>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+            <p><i class="bi bi-house me-3 text-secondary"></i> 23, Asopalav Apartmen,Naranpura, Ahmedabad.</p>
+            <p>
+              <i class="bi bi-envelope me-3 text-secondary"></i>
+              info.festrolicsevents@gmail.com
+            </p>
+            <p><i class="bi bi-telephone me-3 text-secondary"></i> +91 8460182083</p>
+            <!-- <p><i class="bi bi-phone me-3 text-secondary"></i> + 01 234 567 89</p>    -->
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+    <!-- Section: Links  -->
+
+    <!-- Copyright -->
+    <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.025);">
+      © 2022-2023 Copyright:
+      <a class="text-reset fw-bold" href="/">Domestico.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+  <!-- Footer -->
+
+  <script src="../static/jquery-3.6.3.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="../static/index.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+  {% block JScript %} {% endblock %}
+</body>
+
+</html>

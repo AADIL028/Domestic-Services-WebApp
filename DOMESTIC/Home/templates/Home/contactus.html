@@ -1,0 +1,57 @@
+{% extends 'basic.html' %}
+{% block title %} Contact-Us {% endblock %}
+{% block body %}
+
+  <div class=" container-fluid text-center my-3">
+    <img src="../static/cu.jpg" class="w-50" alt="">
+  </div>
+  <div class="w-50 m-auto my-3">
+    {% if sent_msg %}
+    <div class="row">
+      <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong> <span class="fa fa-info-circle"></span> Thanks for Contact us.</strong> we will take action of your
+        query.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+      <div class="col">
+        <div class="card">
+          <div class="card-header bg-dark text-white"><i class="fa fa-envelope"></i> Contact us.
+          </div>
+          <p class="text-center w-responsive mx-auto mt-2 px-2">Do you have any questions? Please do not hesitate to
+            contact us directly. Our team will come back to you within
+            a matter of hours to help you.</p>
+          <div class="card-body">
+            <form action="{% url 'contactus' %}" method="post" >
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="uname" aria-describedby="emailHelp" placeholder="Enter name"
+                  required>
+                <div class="invalid-feedback">Please provide valid e-mail.</div>
+              </div>
+              <div class="form-group my-3">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" name="email" id="email" aria-describedby="emailHelp"
+                  placeholder="Enter email" required>
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                  else.</small>
+                <div class="invalid-feedback">Please provide valid e-mail.</div>
+              </div>
+              <div class="form-group my-3">
+                <label for="message">Message</label>
+                <textarea class="form-control" name="text" id="message" rows="6" required></textarea>
+                <div class="invalid-feedback">Please provide valid e-mail.</div>
+              </div>
+              <div class="mx-auto my-3">
+                <button type="submit" class="btn btn-dark text-right i">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% endblock  %}
